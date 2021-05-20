@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.FragmentPagerAdapter
 import com.example.kotlin05.fragment.DayFragment
-import java.time.LocalDate
 
 
 class DayFragmentAdapter(fm: FragmentManager) :
-    FragmentStatePagerAdapter(fm) {
+//nay a viet o day
+// bao sao
+    FragmentPagerAdapter(fm) {
+    // nay a viet thieu cai j ma no bao loi nhi
+     var mPageReferenceMap = HashMap<Int, DayFragment>()
     override fun getCount(): Int {
         return 1000
     }
@@ -21,7 +23,18 @@ class DayFragmentAdapter(fm: FragmentManager) :
         val bundle = Bundle()
         bundle.putString("message", "$position")
         dayFragment.arguments = bundle
+        mPageReferenceMap[position] = dayFragment
         return dayFragment
     }
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        super.destroyItem(container, position, `object`)
+        mPageReferenceMap.remove(position)
+    }
+
+     fun getFragment(position : Int): DayFragment? {
+        return mPageReferenceMap[position]
+    }
+
 
 }

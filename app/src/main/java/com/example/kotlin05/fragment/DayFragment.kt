@@ -18,9 +18,9 @@ import java.util.*
 import kotlin.math.absoluteValue
 
 
-class DayFragment : Fragment(),CalendarAdapter.OnClickListener {
+open class DayFragment : Fragment() {
     private lateinit var selectedDate: LocalDate
-    private val calendarAdapter: CalendarAdapter = CalendarAdapter(this)
+    private val calendarAdapter: CalendarAdapter = CalendarAdapter()
     private val listDay: ArrayList<String> = arrayListOf()
     private var test: Int = 0
     private lateinit var recyclerView: RecyclerView
@@ -36,6 +36,7 @@ class DayFragment : Fragment(),CalendarAdapter.OnClickListener {
         selectedDate = LocalDate.now()
         selectedDate = selectedDate.minusMonths(500)
         selectedDate = selectedDate.plusMonths(position)
+        // xoa cai nay h a
         view.tv_monthYear.text = monthYearFromDate(selectedDate)
         val firstOfMonth = selectedDate.withDayOfMonth(1)
         val dayOfWeek = firstOfMonth.dayOfWeek.value
@@ -59,7 +60,27 @@ class DayFragment : Fragment(),CalendarAdapter.OnClickListener {
             adapter = calendarAdapter
         }
 
+        // alo
+        // thêm 1 trường hợp này nữa. e ddangowr page 3. em quay về page 2 => lúc này phải xóa ở page 3 đi
+        // lúc nãy a code là đang xử lý trường hợp page 2 qua 3. xóa ở 2
+        // e hiu rui
+
         return view
+    }
+
+    fun clearSelect(){
+        // xóa cái biến select đi
+        // for cái list/
+        // cpde đi
+        // nhung sao lai xoa ha a e k hiu
+        // cái thằng này
+        // m chỉ a cái chố select vào o
+        //list no dang loi a oi hehe
+         // la sao?
+        // tren ubuntu chay dc windows m ni loi list
+        //ok vl rui a oi // ga vcl // vào shope mua them gi di
+        calendarAdapter.rowIndex =-1
+        calendarAdapter.notifyDataSetChanged()
     }
 
     private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
@@ -82,16 +103,5 @@ class DayFragment : Fragment(),CalendarAdapter.OnClickListener {
         val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
         return date.format(formatter)
     }
-    private fun <T> List<T>.prepareForTwoWayPaging(): List<T> {
-        val first = first()
-        val last = last()
-        return toMutableList().apply {
-            add(0, last)
-            add(first)
-        }
-    }
 
-    override fun onClick(position: Int) {
-        Toast.makeText(context, "$position", Toast.LENGTH_SHORT).show()
-    }
 }

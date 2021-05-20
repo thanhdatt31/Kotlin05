@@ -15,7 +15,7 @@ import java.time.LocalDate
 import java.util.*
 
 
-class CalendarAdapter(private var onClickListener: OnClickListener) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
+class CalendarAdapter() : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
     private var listDays: ArrayList<String> = arrayListOf()
     var dayOfWeek: Int = 0
     var abc2: Int = 0
@@ -54,7 +54,11 @@ class CalendarAdapter(private var onClickListener: OnClickListener) : RecyclerVi
             notifyDataSetChanged()
         }
         if (rowIndex == position) {
+            // cái 21 là biến nào
+            // khi bấm vào chọn nagyf. m lưu lại 1 biến gì đấy ở model
+                // cai nay la list string luon a a ko co model co// ok hiểu thể chỉ cần notyfy là được
             holder.dayOfMonth.setTextColor(Color.parseColor("#e600e6"))
+            // cai nay a
             holder.dayOfMonth.typeface = Typeface.DEFAULT_BOLD
             holder.itemBg.setOnTouchListener { v, event ->
                 when (event.action and MotionEvent.ACTION_MASK) {
@@ -62,6 +66,7 @@ class CalendarAdapter(private var onClickListener: OnClickListener) : RecyclerVi
                         startTime = System.currentTimeMillis()
                         clickCount++
                     }
+                    // day a oi
                     MotionEvent.ACTION_UP -> {
                         val time = System.currentTimeMillis() - startTime
                         duration += time
