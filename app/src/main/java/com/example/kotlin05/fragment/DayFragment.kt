@@ -19,11 +19,10 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.properties.Delegates
 
 
 open class DayFragment : Fragment() {
-    private lateinit var selectedDate: LocalDate
+    private var selectedDate: LocalDate = LocalDate.now()
     private val calendarAdapter: CalendarAdapter = CalendarAdapter()
     private val dayTitleAdapter: DayTitleAdapter = DayTitleAdapter()
     private lateinit var listTitle: ArrayList<Int>
@@ -31,16 +30,15 @@ open class DayFragment : Fragment() {
     private var test: Int = 0
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewTitle: RecyclerView
-    private var dayOfWeek : Int = 0
+    private var dayOfWeek: Int = 0
     private var switchDay: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_day, container, false)
-        val position = arguments!!.getString("message")!!.toLong()
         listTitle = arrayListOf(0, 1, 2, 3, 4, 5, 6)
-        selectedDate = LocalDate.now()
+        val position = arguments!!.getString("message")!!.toLong()
         selectedDate = selectedDate.minusMonths(500)
         selectedDate = selectedDate.plusMonths(position)
         view.tv_monthYear.text = monthYearFromDate(selectedDate)
@@ -89,38 +87,39 @@ open class DayFragment : Fragment() {
                 when (days[position]) {
                     "MON" -> {
                         switchTitle(0)
-                        calendarAdapter.setData(genListDay(0))
-                        calendarAdapter.getDayOfWeek(dayOfWeek, test)
+//                        calendarAdapter.setData(genListDay(0))
+//                        calendarAdapter.getDayOfWeek(dayOfWeek, test)
                     }
                     "TUE" -> {
                         switchTitle(1)
-                        calendarAdapter.setData(genListDay(1))
-                        calendarAdapter.getDayOfWeek(dayOfWeek - 1, test)
+//                        calendarAdapter.setData(genListDay(1))
+//                        calendarAdapter.getDayOfWeek(dayOfWeek - 1, test)
                     }
-                    "WED" -> {switchTitle(2)
-                        calendarAdapter.setData(genListDay(2))
-                        calendarAdapter.getDayOfWeek(dayOfWeek - 2, test)
+                    "WED" -> {
+                        switchTitle(2)
+//                        calendarAdapter.setData(genListDay(2))
+//                        calendarAdapter.getDayOfWeek(dayOfWeek - 2, test)
                     }
                     "THU" -> {
                         switchTitle(3)
-                        calendarAdapter.setData(genListDay(3))
-                        calendarAdapter.getDayOfWeek(dayOfWeek - 3, test)
+//                        calendarAdapter.setData(genListDay(3))
+//                        calendarAdapter.getDayOfWeek(dayOfWeek - 3, test)
                     }
 
                     "FRI" -> {
                         switchTitle(4)
-                        calendarAdapter.setData(genListDay(4))
-                        calendarAdapter.getDayOfWeek(dayOfWeek - 4, test)
+//                        calendarAdapter.setData(genListDay(4))
+//                        calendarAdapter.getDayOfWeek(dayOfWeek - 4, test)
                     }
                     "SAT" -> {
                         switchTitle(5)
-                        calendarAdapter.setData(genListDay(5))
-                        calendarAdapter.getDayOfWeek(dayOfWeek - 5, test)
+//                        calendarAdapter.setData(genListDay(5))
+//                        calendarAdapter.getDayOfWeek(dayOfWeek - 5, test)
                     }
                     "SUN" -> {
                         switchTitle(6)
-                        calendarAdapter.setData(genListDay(6))
-                        calendarAdapter.getDayOfWeek(dayOfWeek - 6, test)
+//                        calendarAdapter.setData(genListDay(6))
+//                        calendarAdapter.getDayOfWeek(dayOfWeek - 6, test)
                     }
                 }
             }
@@ -133,8 +132,10 @@ open class DayFragment : Fragment() {
         return view
     }
 
-    private fun genListDay(data : Int) : ArrayList<String>{
-        val listDayNew : ArrayList<String> = arrayListOf()
+    fun genListDay(data: Int,position : Long): ArrayList<String> {
+        selectedDate = selectedDate.minusMonths(500)
+        selectedDate = selectedDate.plusMonths(position)
+        val listDayNew: ArrayList<String> = arrayListOf()
         val currentMonth = daysInMonthArray(selectedDate)
         val previousMonth = daysInMonthArray(selectedDate.minusMonths(1))
         for (i in 1 until dayOfWeek - data) {
@@ -147,7 +148,12 @@ open class DayFragment : Fragment() {
         }
         return listDayNew
     }
-
+    fun updateDay(data : Int,listDay : ArrayList<String>){
+        calendarAdapter.setData(listDay)
+        calendarAdapter.getDayOfWeek(dayOfWeek - data, test)
+        calendarAdapter.notifyDataSetChanged()
+        Log.d("datnt", "updateDay: sussec ")
+    }
     fun clearSelect() {
         Log.d("datnt", "clearSelect: ")
         calendarAdapter.rowIndex = -1
