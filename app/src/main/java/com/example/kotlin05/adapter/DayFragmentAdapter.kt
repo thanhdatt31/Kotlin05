@@ -9,11 +9,8 @@ import com.example.kotlin05.fragment.DayFragment
 
 
 class DayFragmentAdapter(fm: FragmentManager) :
-//nay a viet o day
-// bao sao
     FragmentPagerAdapter(fm) {
-    // nay a viet thieu cai j ma no bao loi nhi
-     var mPageReferenceMap = HashMap<Int, DayFragment>()
+    private var mPageReferenceMap = HashMap<Int, DayFragment>()
     override fun getCount(): Int {
         return 1000
     }
@@ -32,7 +29,7 @@ class DayFragmentAdapter(fm: FragmentManager) :
         mPageReferenceMap.remove(position)
     }
 
-     fun getFragment(position : Int): DayFragment? {
+    fun getFragment(position: Int): DayFragment? {
         return mPageReferenceMap[position]
     }
 

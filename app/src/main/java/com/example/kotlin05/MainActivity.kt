@@ -1,6 +1,7 @@
 package com.example.kotlin05
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.kotlin05.adapter.DayFragmentAdapter
@@ -20,31 +21,26 @@ class MainActivity : AppCompatActivity() {
         viewPager2 = viewPager
         viewPager2.adapter = adapter
         selectedDate = LocalDate.now()
-        val month = selectedDate.month.value
         viewPager2.currentItem = 500
-
+        viewPager2.offscreenPageLimit = 1
         viewPager2.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-            }
 
+            }
             override fun onPageSelected(position: Int) {
                 if (position > 0) {
                     adapter.getFragment(position - 1)?.clearSelect()
                 }
-                if (position < adapter.count) {//build lau vl
-                    // e moi wipe may ao
+                if (position < adapter.count) {
                     adapter.getFragment(position + 1)?.clearSelect()
                 }
-
+                adapter.notifyDataSetChanged()
+                
             }
-
-            // dinh? lun  a oi
-            // code tiep di a xem annotation// nhung e chua nghi ra lam sao de colorSecondaryVariant
-            // thoi m bo them 2tr a day cho khoa nang cao :))
             override fun onPageScrollStateChanged(state: Int) {
             }
 

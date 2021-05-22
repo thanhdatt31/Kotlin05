@@ -40,25 +40,13 @@ class CalendarAdapter() : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: CalendarAdapter.ViewHolder, position: Int) {
-        if (position < dayOfWeek - 1 || position > listDays.size - 1 - abc2) {
-            holder.dayOfMonth.setTextColor(Color.parseColor("#FF888888"))
-
-        }
         holder.dayOfMonth.text = listDays[position]
-        val selectedDate: LocalDate = LocalDate.now()
-//        if (holder.dayOfMonth.text == selectedDate.dayOfMonth.toString()) {
-//            holder.dayOfMonth.setTextColor(Color.parseColor("#888888"))
-//        }
         holder.itemBg.setOnClickListener {
             rowIndex = position
             notifyDataSetChanged()
         }
         if (rowIndex == position) {
-            // cái 21 là biến nào
-            // khi bấm vào chọn nagyf. m lưu lại 1 biến gì đấy ở model
-                // cai nay la list string luon a a ko co model co// ok hiểu thể chỉ cần notyfy là được
             holder.dayOfMonth.setTextColor(Color.parseColor("#e600e6"))
-            // cai nay a
             holder.dayOfMonth.typeface = Typeface.DEFAULT_BOLD
             holder.itemBg.setOnTouchListener { v, event ->
                 when (event.action and MotionEvent.ACTION_MASK) {
@@ -66,7 +54,6 @@ class CalendarAdapter() : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
                         startTime = System.currentTimeMillis()
                         clickCount++
                     }
-                    // day a oi
                     MotionEvent.ACTION_UP -> {
                         val time = System.currentTimeMillis() - startTime
                         duration += time
@@ -89,7 +76,10 @@ class CalendarAdapter() : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
                 true
             }
         } else {
-//            holder.dayOfMonth.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.dayOfMonth.setTextColor(Color.parseColor("#FFFFFF"))
+            if (position < dayOfWeek - 1 || position > listDays.size - 1 - abc2) {
+                holder.dayOfMonth.setTextColor(Color.parseColor("#FF888888"))
+            }
         }
 
     }
@@ -108,9 +98,4 @@ class CalendarAdapter() : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
         abc2 = abc
         notifyDataSetChanged()
     }
-    interface OnClickListener{
-        fun onClickNext(position : Int)
-        fun onClickBack(position : Int)
-    }
-
 }
